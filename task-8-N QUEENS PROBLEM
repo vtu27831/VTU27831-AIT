@@ -1,0 +1,61 @@
+TASK 8:Python program to solve the N-Queen problem using the Backtracking algorithm.
+python program:
+
+def is_safe(board, row, col, n):
+    for i in range(row):
+        if board[i][col] == 1:
+            return False
+    i, j = row, col
+    while i >= 0 and j >= 0:
+        if board[i][j] == 1:
+            return False
+        i -= 1
+        j -= 1
+    i, j = row, col
+    while i >= 0 and j < n:
+        if board[i][j] == 1:
+            return False
+        i -= 1
+        j += 1
+
+    return True
+def solve_n_queen(board, row, n, solutions):
+    if row == n:
+        # store solution
+        solutions.append([r[:] for r in board])
+        return
+    for col in range(n):
+        if is_safe(board, row, col, n):
+            board[row][col] = 1
+            solve_n_queen(board, row + 1, n, solutions)
+            board[row][col] = 0  # backtrack
+def print_solutions(solutions, n):
+    for idx, sol in enumerate(solutions):
+        print(f"\nSolution {idx + 1}:")
+        for row in sol:
+            print(" ".join("Q" if x == 1 else "." for x in row))
+n = int(input("Enter N: "))
+board = [[0] * n for _ in range(n)]
+solutions = []
+solve_n_queen(board, 0, n, solutions)
+print(f"\nTotal solutions: {len(solutions)}")
+print_solutions(solutions, n)
+
+
+
+output:
+Enter N: 4
+
+Total solutions: 2
+
+Solution 1:
+. Q . .
+. . . Q
+Q . . .
+. . Q .
+
+Solution 2:
+. . Q .
+Q . . .
+. . . Q
+. Q . .
